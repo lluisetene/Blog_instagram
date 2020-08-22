@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@push('head')
+    <script src="{{ asset('js/myjs.js') }}" defer></script>
+@endpush
 
 @section('content')
     <div class="container">
@@ -9,7 +12,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 @include('includes.avatar', ['style' => 'float:left; width:100%;'])
-                                <div style="margin-top: 35%">
+                                <div>
                                     <p>{{ $user->username }}</p>
                                     <p>Blog personal</p>
                                 </div>
@@ -36,10 +39,14 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        {{ __('You are logged in 2222!') }}
+                        {{ __('You are logged in 21111122!') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+<script>
+
+</script>

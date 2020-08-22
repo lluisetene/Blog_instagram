@@ -22,12 +22,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+
+    @stack('head')
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/') }}" style="margin-left: 5%;">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -59,21 +61,17 @@
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->
                             <a href="{{ route('user.show', ['id' => Auth::user()->id]) }}">
-                                @include('includes.avatar')
+                                @include('includes.avatar', ['style' => 'float:right;'])
                             </a>
                             <li class="dropdown user user-menu">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <span class="hidden-xs"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <!-- User image -->
-                                    <li class="user-header">
-                                        <!--<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-                                    </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="col-md">
-                                            <a href="{{ route('user.show',['id' => 1]) }}" style="color:black;">
+                                            <a href="{{ route('user.show',['id' => Auth::user()->id]) }}" style="color:black;">
                                                 <span>
                                                     <i class="fas fa-user-circle" style="margin-right:5%;"></i>{{ __('Profile') }}
                                                 </span>

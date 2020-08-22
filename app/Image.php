@@ -17,4 +17,11 @@ class Image extends Model
         'user_id', 'image_path'
     ];
 
+
+    public function comments()
+    {
+        // de uno a muchos
+        return $this->hasMany('App\Comment')->orderBy('id', 'desc');
+    }
+
 }

@@ -45,6 +45,15 @@ class ImageController extends Controller
         ]);
 
         return redirect()->route('user.show', ['id' => $user_id]);
+    }
 
+    public function showImage($filename)
+    {
+        $image = Image::where('image_path', $filename)->first();
+        $user = User::where('id', $image->user_id)->first();
+        return view('image.detail_img', [
+            'image' => $image,
+            'user' => $user
+        ]);
     }
 }

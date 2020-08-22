@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -63,23 +64,20 @@ class UserController extends Controller
                 return view('error.DataNotExist');
             }
 
-//            $validate = $this->validate($request, [
-//                'fisrtname' => 'required',
-//                'lastname' => 'required',
-//                'username' => 'required',
-//                'email' => 'required',
-//                'image_path' => 'image'
-//            ]);
-            $firstname = $request->get('firstname');
-            $lastname = $request->get('lastname');
-            $username = $request->get('username');
-            $email = $request->get('email');
+            $request->validate([
+                'firstname' => 'required|string|max:255',
+                'lastname' => 'required|string|max:255',
+                'username' => 'required|string|unique:users|max:255',
+                'email' => 'required|string|email|unique:users|max:255',
+                'image_path' => 'file|mimes:jpeg,png,jpg,gif,svg,JPEG,PNG,JPG,GIF,SVG|max:2048'
+            ]);
+
             $image_path = $request->file('image_path');
 
-            $user->firstname = $firstname;
-            $user->lastname = $lastname;
-            $user->username = $username;
-            $user->email = $email;
+            $user->firstname = $request->get('firstname');
+            $user->lastname = $request->get('lastname');
+            $user->username = $request->get('username');
+            $user->email = $request->get('email');
             if (!is_null($image_path)) {
                 $image_path_name = time().$image_path->getClientOriginalName();
                 Storage::disk('users')->put($image_path_name, File::get($image_path));
@@ -98,6 +96,11 @@ class UserController extends Controller
     {
         $file = Storage::disk('users')->get($filename);
         return new Response($file, 200);
+    }
+
+    public function usersList()
+    {
+        return User::inRandomOrder()->limit(5);;
     }
 
 

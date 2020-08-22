@@ -3,20 +3,14 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <p>aquí los histories</p>
-                    </div>
-                </div>
-
+            <div class="col-md-7 offset-md-1">
+                @include('includes.histories')
                 @yield('card-images')
-
             </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        {{ __('You are logged in 2222!') }}
+                        @include('includes.recommended_users')
                     </div>
                 </div>
             </div>

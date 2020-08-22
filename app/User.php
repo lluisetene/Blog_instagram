@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'username', 'email', 'password', 'photo'
+        'firstname', 'lastname', 'username', 'email', 'password', 'image_path'
     ];
 
     /**
@@ -51,9 +51,9 @@ class User extends Authenticatable
     }
 
     // Seguidos
-    public function followeds($id)
+    public function followeds()
     {
-        return Follower::find($id);
+        //return Follower::find($id);
 
         //return $this->belongsTo('App\Follower', 'Follow_id');
     }

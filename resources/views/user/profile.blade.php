@@ -2,23 +2,30 @@
 
 @section('card-images')
     @if(count($user->images) == 0)
-        <p>Usuario sin fotos</p>
         <div class="card" style="margin-top: 8%;">
-            <div class="card-header">
-                @include('includes.avatar', ['style' => 'float: left; width: 10%;'])
-            </div>
+            @if($user->id == Auth::user()->id)
+                <div class="card-header">
+                    <p>{{ __('Upload your first photo! :)') }}</p>
+                </div>
 
-            <div class="card-body">
-                card-body
-            </div>
+                <div class="card-body">
+                    @include('image.uploadImg')
+                </div>
+            @else
+                <div class="card-body" style="text-align:center;">
+                    <p>{{ __('User without photos! :(') }}</p>
+                </div>
+            @endif
         </div>
     @else
         <div class="card" style="margin-top: 8%;">
             <div class="card-header">
                 <div class="col-md" style="text-align: center;">
-                    <a href="{{ route('image.index') }}">
-                        <span><i class="fas fa-plus-circle fa-2x" style="color:black;"></i></span>
-                    </a>
+                    @if(Auth::user()->id == $user->id)
+                        <a href="{{ route('image.index') }}">
+                            <span><i class="fas fa-plus-circle fa-2x" style="color:black;"></i></span>
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -31,7 +38,9 @@
                 <div class="row">
                     @foreach($images as $image)
                         <div class="col-md-4 profile-img-uploads">
-                            <img src="{{ url('/uploads/'.$image->image_path) }}" class="upload-img" />
+                            <a href="{{ route('image.show', ['filename' => $image->image_path]) }}">
+                                <img src="{{ url('/uploads/'.$image->image_path) }}" class="upload-img" />
+                            </a>
                         </div>
                     @endforeach
                 </div>

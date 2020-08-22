@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Follower extends Model
+class Like extends Model
 {
-    protected $table = 'followers';
+    protected $table = 'likes';
 
     /**
      * The attributes that are mass assignable.
@@ -14,6 +14,6 @@ class Follower extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id'
+        'image_id', 'comment_id', 'user_id', 'toUser_id'
     ];
 }
