@@ -41,20 +41,18 @@ class User extends Authenticatable
     public function images()
     {
         // de uno a muchos
-        return $this->hasMany('App\Image')->orderBy('id', 'desc');
+        return $this->hasMany('App\Image');
     }
 
     // Seguidores
     public function followers()
     {
-        return $this->hasMany('App\Follower')->orderBy('id', 'desc');
+        return $this->hasMany('App\Follower', 'toUser_id');
     }
 
     // Seguidos
     public function followeds()
     {
-        //return Follower::find($id);
-
-        //return $this->belongsTo('App\Follower', 'Follow_id');
+        return $this->hasMany('App\Follower');
     }
 }

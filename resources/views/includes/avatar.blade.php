@@ -1,6 +1,6 @@
 @if(Auth::user()->image_path)
     <img src="{{ url('/user/avatar/'.$user->image_path) }}" class="avatar" style="{{ $style ?? '' }}"/>
-    <span style="margin-left: 2%">
+    <span style="margin-left:2%; vertical-align:sub;">
         {{ $other_username ?? '' }}
     </span>
 @else

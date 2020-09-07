@@ -21,7 +21,11 @@ class Image extends Model
     public function comments()
     {
         // de uno a muchos
-        return $this->hasMany('App\Comment')->orderBy('id', 'desc');
+        return $this->hasMany('App\Comment');
     }
 
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
 }

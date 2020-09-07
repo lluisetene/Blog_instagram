@@ -4,7 +4,7 @@
     @if(count($user->images) == 0)
         <div class="card" style="margin-top: 8%;">
             <div class="card-header">
-                @include('includes.avatar', ['style' => 'float: left; width: 10%;', 'other_username' => $user->username])
+                @include('includes.avatar', ['style' => 'float: left; width: 10%;', 'user' => $user, 'other_username' => $user->username])
             </div>
 
             <div class="card-body">

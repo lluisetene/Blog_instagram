@@ -27,3 +27,13 @@ Route::post('upload/image/{id}', 'ImageController@upload')->name('image.upload')
 Route::get('image/{filename}', 'ImageController@showImage')->name('image.show');
 
 Auth::routes();
+
+/* -- AJAX -- */
+// Likes
+Route::post('like', 'LikeController@index')->name('like.index');
+
+// Follows
+Route::post('follow', 'FollowerController@index')->name('follow.index');
+
+// Comments
+Route::post('image/comment', 'CommentController@save')->name('comment.save');

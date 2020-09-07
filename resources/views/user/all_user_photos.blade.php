@@ -1,22 +1,17 @@
 @extends('welcome')
 
 @section('card-images')
-    <p>aquí una foto/usuario</p>
     @foreach($user_list as $user)
         <div class="card" style="margin-top: 8%;">
             <div class="card-header">
-                {{ __('Dashboard') }}
+                <a href="{{ route('user.show', ['id' => $user->id]) }}" style="color:black;">
+                    @include('includes.avatar', ['style' => 'width:10%', 'user' => $user, 'other_username' => $user->username])
+                </a>
             </div>
 
             <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                {{ $user->firstname }} {{ $user->lastname }}
+                aquí una foto
             </div>
-
         </div>
     @endforeach
 @endsection

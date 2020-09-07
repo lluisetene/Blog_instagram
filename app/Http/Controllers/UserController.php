@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function showProfile($id)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::find($id);
         if (is_null($user)) {
             return view('error.DataNotExist');
         }

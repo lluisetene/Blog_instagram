@@ -11,6 +11,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('lib/adminlte-3.0.5/plugins/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('js/myjs.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,7 +25,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
 
-    @stack('head')
+    @stack('script_files')
+
 </head>
 <body>
     <div id="app">
@@ -61,7 +64,7 @@
                         <ul class="navbar-nav ml-auto">
                             <!-- Authentication Links -->
                             <a href="{{ route('user.show', ['id' => Auth::user()->id]) }}">
-                                @include('includes.avatar', ['style' => 'float:right;'])
+                                @include('includes.avatar', ['style' => 'float:right;', 'user' => Auth::user()])
                             </a>
                             <li class="dropdown user user-menu">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -111,5 +114,7 @@
         </main>
 
     </div>
+    @stack('script')
+    @yield('scripts')
 </body>
 </html>
