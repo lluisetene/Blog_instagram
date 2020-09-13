@@ -14,9 +14,13 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <a href="{{ url('/image/detail/'.$user->lastImgUpload()['image_path']) }}">
-                    <img src="{{ url('/image/'.$user->lastImgUpload()['image_path']) }}" class="detail-img" />
-                </a>
+                @if(count($user->images) > 0)
+                    <a href="{{ url('/image/detail/'.$user->lastImgUpload()['image_path']) }}">
+                        <img src="{{ url('/image/'.$user->lastImgUpload()['image_path']) }}" class="detail-img" />
+                    </a>
+                @else
+                    <img src="{{ url('image/no_image_available.png') }}" class="detail-img" />
+                @endif
             </div>
 
         </div>

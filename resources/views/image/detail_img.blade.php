@@ -30,20 +30,20 @@
                     <div class="col-md-1">
                         <span>
                             @if(count($image->likes->where('user_id', Auth::user()->id)) > 0)
-                                <i id="dislike-photo" class="fas fa-heart fa-2x" style="cursor:pointer; color:red;"></i>
+                                <i id="dislike-img" class="fas fa-heart fa-2x" style="cursor:pointer; color:red;"></i>
                             @else
-                                <i id="like-photo" class="far fa-heart fa-2x" style="cursor:pointer;"></i>
+                                <i id="like-img" class="far fa-heart fa-2x" style="cursor:pointer;"></i>
                             @endif
                         </span>
                     </div>
                     <div class="col-md-1">
                         <span>
-                            <i id="comment-photo" class="far fa-comment fa-2x" style="cursor:pointer;"></i>
+                            <i id="comment-img" class="far fa-comment fa-2x" style="cursor:pointer;"></i>
                         </span>
                     </div>
                     <div class="col-md-1">
                         <span>
-                            <i id="share-photo" class="far fa-share-square fa-2x" style="cursor:pointer;"></i>
+                            <i id="share-img" class="far fa-share-square fa-2x" style="cursor:pointer;"></i>
                         </span>
                     </div>
                     <div class="col-md-1 offset-md-8">
@@ -51,6 +51,12 @@
                             <i class="far fa-bookmark fa-2x" style="cursor:pointer;"></i>
                         </span>
                     </div>
+                </div>
+                <div style="margin-top:2%;">
+                    <a href="{{ route('user.show', ['id' => $user->id]) }}" style="color:black;">
+                        <span style="font-weight:bold;">{{$user->username}}</span>
+                    </a>
+                    {{$image->description}}
                 </div>
                 @foreach($image->comments as $comment)
                     @include('comment.show_comments', ['comment' => $comment, 'user' => $user])
@@ -116,7 +122,7 @@
                }
             });
 
-            $('#like-photo,#dislike-photo').on('click', function() {
+            $('#like-img,#dislike-img').on('click', function() {
                 ajax_call("{{ route('like.index') }}", {'funct': $(this).prop('id')});
             });
 
@@ -135,10 +141,10 @@
                 axios.post(route, params)
                     .then(function(res) {
                         console.log(params);
-                        console.log('entra en then');
-                        if (funct == 'like-photo') {
+                        console.log(funct);
+                        if (funct == 'like-img') {
                             $('#' + funct).removeClass('far fa-heart fa-2x').addClass('fas fa-heart fa-2x').css('color', 'red');
-                        } else if (funct == 'dislike-photo') {
+                        } else if (funct == 'dislike-img') {
                             $('#' + funct).removeClass('fas fa-heart fa-2x').addClass('far fa-heart fa-2x').css('color', '');
                         } else if (funct == 'send-comment-btn') {
                             $("textarea[name='comment']").parent().append($("<input name='comment' value='res.data.comment-user' style='border:0px;'>"));

@@ -36,14 +36,15 @@ class ImageController extends Controller
 
         $image = Image::create([
             'user_id' => $user_id,
+            'description' => $request->get('description'),
             'image_path' => $image_path_name
         ]);
 
-        Comment::create([
+        /*Comment::create([
             'comment' => $request->get('comment'),
             'user_id' => $user_id,
             'image_id' => $image->id
-        ]);
+        ]);*/
 
         return redirect()->route('user.show', ['id' => $user_id]);
     }

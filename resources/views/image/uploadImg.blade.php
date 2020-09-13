@@ -18,9 +18,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="comment">Comment</label>
-                    <textarea class="form-control @error('comment') is-invalid @enderror" id="comment" rows="3" name="comment" autofocus required></textarea>
-                    @error('comment')
+                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" rows="3" name="description" autofocus required placeholder="{{__('Description...')}}"></textarea>
+                    @error('description')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
