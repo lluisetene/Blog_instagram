@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -67,8 +67,10 @@ class UserController extends Controller
             $request->validate([
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
-                'username' => 'required|string|unique:users|max:255',
-                'email' => 'required|string|email|unique:users|max:255',
+                'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($id)],
+                //'username' => 'required|string|unique:users|max:255|'.$id,
+                'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
+                //'email' => 'required|string|email|unique:users|max:255|',
                 'image_path' => 'file|mimes:jpeg,png,jpg,gif,svg,JPEG,PNG,JPG,GIF,SVG|max:2048'
             ]);
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Image;
 use App\User;
 use App\Comment;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,4 +57,11 @@ class ImageController extends Controller
             'user' => $user
         ]);
     }
+
+    public function getImage($filename)
+    {
+        $file = Storage::disk('uploads')->get($filename);
+        return new Response($file, 200);
+    }
+
 }

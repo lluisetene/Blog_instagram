@@ -24,7 +24,8 @@ Route::post('/configure/user/{id}', 'UserController@save')->name('user.save');
 //Images
 Route::get('upload/image/', 'ImageController@index')->name('image.index');
 Route::post('upload/image/{id}', 'ImageController@upload')->name('image.upload');
-Route::get('image/{filename}', 'ImageController@showImage')->name('image.show');
+Route::get('image/detail/{filename}', 'ImageController@showImage')->name('image.detail');
+Route::get('image/{filename}', 'ImageController@getImage')->name('image.show');
 
 Auth::routes();
 

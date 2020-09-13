@@ -55,4 +55,11 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Follower');
     }
+
+    // Última imagen subida por el usuario
+    public function lastImgUpload()
+    {
+        return $this->hasMany('App\Image')->orderBy('id', 'desc')->first();
+    }
+
 }

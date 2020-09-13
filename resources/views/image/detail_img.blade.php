@@ -24,7 +24,7 @@
                     </div>
                 @endif
                 <div class="row">
-                    <img src="{{ url('/uploads/'.$image->image_path) }}" class="detail-img" />
+                    <img src="{{ url('/image/'.$image->image_path) }}" class="detail-img" />
                 </div>
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-md-1">
