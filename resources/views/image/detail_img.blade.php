@@ -61,29 +61,6 @@
                 @foreach($image->comments as $comment)
                     @include('comment.show_comments', ['comment' => $comment, 'user' => $user])
                 @endforeach
-                {{--@foreach($image->comments as $comment)
-                    <div class="row">
-                        <div class="col-sm-11" style="margin-top: 2%;">
-                            <div>
-                                <a href="{{ route('user.show', ['id' => $user->id]) }}" style="color:black; font-weight:bold;">
-                                    @include('includes.avatar', ['style' => 'float:left; width:8%;', 'user' => $user, 'other_username' => $user->username])
-                                </a>
-                                <span name="comment" style="vertical-align:sub;">{{ $comment['comment'] }}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            @if(count($comment->likes->where('user_id', Auth::user()->id)) > 0)
-                                <div name="dislike-comment" value="{{ $comment->id }}">
-                                    <i class="fas fa-heart fa-lg" style="cursor:pointer; color:red; margin-top:100%;"></i>
-                                </div>
-                            @else
-                                <div name="like-comment" value="{{ $comment->id }}">
-                                    <i class="far fa-heart fa-lg" style="cursor:pointer; margin-top:100%;"></i>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach--}}
                 <div class="input-group mb-3" style="margin-top:3%;">
                     <input id="comment-to-send" type="text" class="form-control" placeholder="{{__('My comment...')}}" aria-label="User comment" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -93,6 +70,7 @@
             </div>
         </div>
     @endif
+    <example-component></example-component>
 @endsection
 
 @section('scripts')
@@ -107,11 +85,6 @@
             $('#send-comment-btn').on('click', function() {
                 params['comment-user'] = $('#comment-to-send').val();
                 axios_post("{{ route('comment.save') }}", params);
-                /*axios_post("{{ route('comment.save') }}", params, function(res) {
-                    console.log(res.data);
-                    $("textarea[name='comment']").parent().append($("<input name='comment' value=res.data.comment-user style='border:0px;'>"));
-                    $('#' + $(this).prop('id')).val('');
-                });*/
             });
 
             $('#comment-to-send').on('keyup', function() {
@@ -123,12 +96,26 @@
             });
 
             $('#like-img,#dislike-img').on('click', function() {
-                ajax_call("{{ route('like.index') }}", {'funct': $(this).prop('id')});
+                if ($(this).prop('id').split('-')[0] == 'like') {
+                    console.log('click like');
+                    var route = "{{ route('like.img') }}";
+                } else {
+                    console.log('click dislike');
+                    var route = "{{ route('dislike.img') }}";
+                }
+                ajax_call(route, {'funct': $(this).prop('id')});
             });
 
             $("div[name='like-comment'],div[name='dislike-comment']").on('click', function() {
-                ajax_call("{{ route('like.index') }}", {'funct': $(this).attr('name'),
-                                                        'comment_id': $(this).attr('value')
+                if ($(this).attr('name') == 'like-comment') {
+                    console.log('click like comment');
+                    var route = "{{ route('like.comment') }}";
+                } else {
+                    console.log('click dislike comment');
+                    var route = "{{ route('dislike.comment') }}";
+                }
+                ajax_call(route, {'funct': $(this).attr('name'),
+                                  'comment_id': $(this).attr('value')
                 });
             })
 
@@ -140,20 +127,21 @@
                 var funct = params['funct'];
                 axios.post(route, params)
                     .then(function(res) {
-                        console.log(params);
-                        console.log(funct);
                         if (funct == 'like-img') {
-                            $('#' + funct).removeClass('far fa-heart fa-2x').addClass('fas fa-heart fa-2x').css('color', 'red');
+                            console.log('like');
+                            $('#' + funct).removeClass('far fa-heart fa-2x').addClass('fas fa-heart fa-2x').css('color', 'red').attr('id', 'dislike-img');
                         } else if (funct == 'dislike-img') {
-                            $('#' + funct).removeClass('fas fa-heart fa-2x').addClass('far fa-heart fa-2x').css('color', '');
+                            console.log('dislike');
+                            $('#' + funct).removeClass('fas fa-heart fa-2x').addClass('far fa-heart fa-2x').css('color', '').attr('id', 'like-img');
                         } else if (funct == 'send-comment-btn') {
                             $("textarea[name='comment']").parent().append($("<input name='comment' value='res.data.comment-user' style='border:0px;'>"));
                             $('#' + funct).val('');
                         } else if (funct == 'like-comment') {
                             $('div[value="' + params['comment_id'] + '"]').children().removeClass('far fa-heart fa-lg').addClass('fas fa-heart fa-lg').css('color', 'red');
+                            $('div[value="' + params['comment_id'] + '"]').attr('name', 'dislike-comment');
                         } else if (funct == 'dislike-comment') {
-                            console.log('adasdasd');
                             $('div[name="' + funct + '"]').children().removeClass('fas fa-heart fa-lg').addClass('far fa-heart fa-lg').css('color', '');
+                            $('div[value="' + params['comment_id'] + '"]').attr('name', 'like-comment');
                         }
                     }).catch(function(error) {
                         console.log(error);

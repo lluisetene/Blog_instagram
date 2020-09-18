@@ -19,102 +19,87 @@ class LikeController extends Controller
     }
 
 
-    public function likeImg($fromUserId, $toUserId, $imageId)
+    /**
+     * Función que recibe la petición y comprueba que
+     *
+     * @param $request: pasamos los parámetros de la petición
+     * @return int[]|string
+     */
+    public function getValues($request)
     {
-        Like::create([
-            'user_id' => $fromUserId,
-            'toUser_id' => $toUserId,
-            'image_id' => $imageId
-        ]);
-    }
-
-
-    public function dislikeImg($fromUserId, $toUserId, $imageId)
-    {
-        $like = Like::where('user_id', $fromUserId)
-                    ->where('toUser_id', $toUserId)
-                    ->where('image_id', $imageId);
-        $like->delete();
-    }
-
-
-    public function likeComment($fromUserId, $toUserId, $imageId, $commentId)
-    {
-        Like::create([
-            'user_id' => $fromUserId,
-            'toUser_id' => $toUserId,
-            'image_id' => $imageId,
-            'comment_id' => $commentId
-        ]);
-    }
-
-
-    public function dislikeComment($fromUserId, $toUserId, $imageId, $commentId)
-    {
-        $like = Like::where('user_id', $fromUserId)
-            ->where('toUser_id', $toUserId)
-            ->where('image_id', $imageId)
-            ->where('comment_id', $commentId);
-        $like->delete();
-    }
-
-
-    public function index(Request $request)
-    {
-        $toUserId = (int)$request->get('toUserId');
         if ($request->ajax()) {
             $fromUserId = (int)$request->get('fromUserId');
+            $toUserId = (int)$request->get('toUserId');
             $imageId = (int)$request->get('image_id');
-            list($funct, $dest) = explode('_', $request->get('funct'));
-            if ($dest == 'img') {
-                if ($funct == 'like') {
-                    $this->likeImg($fromUserId, $toUserId, $imageId);
-                } else {
-                    $this->dislikeImg($fromUserId, $toUserId, $imageId);
-                }
-            } elseif ($dest == 'comment') {
-                $commentId = (int)$request->get('comment_id');
-                if ($funct == 'like') {
-                    $this->likeComment($fromUserId, $toUserId, $imageId, $commentId);
-                } else {
-                    $this->dislikeComment($fromUserId, $toUserId, $imageId, $commentId);
-                }
-            }
-//            if ($funct == 'like-img') {
-//                $imageId = (int)$request->get('image_id');
-//                Like::create([
-//                    'user_id' => $fromUserId,
-//                    'toUser_id' => $toUserId,
-//                    'image_id' => $imageId
-//
-//                ]);
-//            } elseif ($funct == 'dislike-img') {
-//                $imageId = (int)$request->get('image_id');
-//                $like = Like::where('user_id', $fromUserId)
-//                    ->where('toUser_id', $toUserId)
-//                    ->where('image_id', $imageId);
-//                $like->delete();
-//            } elseif ($funct == 'like-comment') {
-//                $commentId = (int)$request->get('comment_id');
-//                $imageId = (int)$request->get('image_id');
-//                Like::create([
-//                    'user_id' => $fromUserId,
-//                    'toUser_id' => $toUserId,
-//                    'image_id' => $imageId,
-//                    'comment_id' => $commentId
-//                ]);
-//            } elseif ($funct == 'dislike-comment') {
-//                $commentId = (int)$request->get('comment_id');
-//                $imageId = (int)$request->get('image_id');
-//                $like = Like::where('user_id', $fromUserId)
-//                    ->where('toUser_id', $toUserId)
-//                    ->where('image_id', $imageId)
-//                    ->where('comment_id', $commentId);
-//                $like->delete();
-//            }
+            $commentId = (int)$request->get('comment_id');
+            return [$fromUserId, $toUserId, $imageId, $commentId];
         } else {
-            return "";
+            return '';
         }
-        return response()->json();
+
+    }
+
+
+    public function likeImg(Request $request)
+    {
+        if (count($this->getValues($request)) > 0) {
+            list($fromUserId, $toUserId, $imageId) = $this->getValues($request);
+            Like::create([
+                'user_id' => $fromUserId,
+                'toUser_id' => $toUserId,
+                'image_id' => $imageId
+            ]);
+            return response()->json();
+        } else {
+            return '';
+        }
+    }
+
+
+    public function dislikeImg(Request $request)
+    {
+        if (count($this->getValues($request)) > 0) {
+            list($fromUserId, $toUserId, $imageId) = $this->getValues($request);
+            $like = Like::where('user_id', $fromUserId)
+                        ->where('toUser_id', $toUserId)
+                        ->where('image_id', $imageId);
+            $like->delete();
+            return response()->json();
+        } else {
+            return '';
+        }
+    }
+
+
+    public function likeComment(Request $request)
+    {
+        if (count($this->getValues($request)) > 0) {
+            list($fromUserId, $toUserId, $imageId, $commentId) = $this->getValues($request);
+            Like::create([
+                'user_id' => $fromUserId,
+                'toUser_id' => $toUserId,
+                'image_id' => $imageId,
+                'comment_id' => $commentId
+            ]);
+            return response()->json();
+        } else {
+            return '';
+        }
+    }
+
+
+    public function dislikeComment(Request $request)
+    {
+        if (count($this->getValues($request)) > 0) {
+            list($fromUserId, $toUserId, $imageId, $commentId) = $this->getValues($request);
+            $like = Like::where('user_id', $fromUserId)
+                ->where('toUser_id', $toUserId)
+                ->where('image_id', $imageId)
+                ->where('comment_id', $commentId);
+            $like->delete();
+            return response()->json();
+        } else {
+            return '';
+        }
     }
 }

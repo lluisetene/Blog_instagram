@@ -30,9 +30,9 @@
                         @if(Auth::user()->id != $user->id)
                             <div class="row">
                                 @if($user->followers->firstWhere('user_id', Auth::user()->id))
-                                    <input type="button" id="follow_unfollow_btn" name="unfollow" value="{{__('Unfollow')}}" class="btn btn-primary btn-md">
+                                    <input type="button" id="unfollow_btn" name="unfollow" value="{{__('Unfollow')}}" data-url="{{ route('follow.unfollow') }}" class="btn btn-primary btn-md">
                                 @else
-                                    <input type="button" id="follow_unfollow_btn" name="follow" value="{{__('Follow')}}" class="btn btn-primary btn-md">
+                                    <input type="button" id="follow_btn" name="follow" value="{{__('Follow')}}" data-url="{{ route('follow.follow') }}" class="btn btn-primary btn-md">
                                 @endif
                                 <div id="div_msg" class="" role="alert" style="margin-left:10%;">
                                     <span id="msg"></span>
@@ -59,10 +59,11 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#follow_unfollow_btn').on('click',
+            $('#follow_btn, #unfollow_btn').on('click',
                 function follow_unfollow_ajax() {
                 var name_btn = $(this).prop('name');
-                var route = "{{ route('follow.index') }}";
+                var route = $(this).data('url');
+                //var route = "{{ route('follow.index') }}";
                 var params = {
                     'fromUserId': "{{ Auth::user()->id }}",
                     'toUserId': "{{ $user->id }}",

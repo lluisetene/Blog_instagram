@@ -31,10 +31,15 @@ Auth::routes();
 
 /* -- AJAX -- */
 // Likes
-Route::post('like', 'LikeController@index')->name('like.index');
+Route::post('like/img', 'LikeController@likeImg')->name('like.img');
+Route::post('dislike/img', 'LikeController@dislikeImg')->name('dislike.img');
+Route::post('like/comment', 'LikeController@likeComment')->name('like.comment');
+Route::post('dislike/comment', 'LikeController@dislikeComment')->name('dislike.comment');
 
 // Follows
-Route::post('follow', 'FollowerController@index')->name('follow.index');
+Route::post('followw', 'FollowerController@index')->name('follow.index');
+Route::post('follow', 'FollowerController@follow')->name('follow.follow');
+Route::post('unfollow', 'FollowerController@unfollow')->name('follow.unfollow');
 
 // Comments
 Route::post('image/comment', 'CommentController@save')->name('comment.save');

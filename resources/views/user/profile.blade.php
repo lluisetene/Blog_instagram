@@ -39,7 +39,6 @@
                     @foreach($images as $image)
                         <div class="col-md-4 profile-img-uploads">
                             <a href="{{ route('image.detail', ['filename' => $image->image_path]) }}">
-                                <!--<img src="{{ url('/uploads/'.$image->image_path) }}" class="upload-img" />-->
                                 <img src="{{ route('image.show', ['filename' => $image->image_path]) }}" class="upload-img" />
                             </a>
                         </div>
