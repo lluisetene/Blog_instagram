@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'UserController@index')->name('index');
-Route::get('/profile/{id}', 'UserController@showProfile')->name('user.show');
+Route::get('/profile/{id}', 'UserController@show')->name('user.show');
 Route::get('/configure/user/{id}', 'UserController@update')->name('user.update');
 Route::get('/user/avatar/{filename}', 'UserController@getAvatar')->name('user.getAvatar');
 Route::get('/recommended-users/', 'UserController@usersList')->name('user.recommended_users');

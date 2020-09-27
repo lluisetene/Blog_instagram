@@ -19,7 +19,6 @@ class UserController extends Controller
 
     public function index()
     {
-        //return view('welcome');
         $user_list = User::all();
         return view('user.all_user_photos', [
             'user_list' => $user_list
@@ -27,7 +26,7 @@ class UserController extends Controller
     }
 
 
-    public function showProfile($id)
+    public function show($id)
     {
         $user = User::find($id);
         if (is_null($user)) {
