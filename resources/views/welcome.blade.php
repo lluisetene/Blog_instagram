@@ -7,7 +7,7 @@
 
                 @include('includes.histories')
 
-                @include('layouts.card-image')
+                @yield('card-images')
 
             </div>
             <div class="col-md-4">

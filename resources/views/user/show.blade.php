@@ -41,7 +41,8 @@
                     </div>
                 </div>
 
-                @yield('card-image')
+                @yield('card-images')
+
 
             </div>
             <div class="col-md-4">

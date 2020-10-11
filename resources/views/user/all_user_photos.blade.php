@@ -1,8 +1,7 @@
 @extends('welcome')
-@extends('layouts.card-image')
+
 
 @section('card-images')
-
     @foreach($user_list as $user)
         @if ($user->id != Auth::user()->id and !$user->private_account or ($user->private_account and $user->followers->firstWhere('user_id', Auth::user()->id)))
             <div class="card" style="margin-top: 8%;">

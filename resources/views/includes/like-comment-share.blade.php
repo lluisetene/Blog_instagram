@@ -36,50 +36,47 @@
 </div>
 
 <script type="application/javascript">
-    $(document).ready(function() {
-        console.log('entra');
-        var params = {
-            'fromUserId': {{ Auth::user()->id }},
-            'toUserId': {{ $user->id }},
-            'image_id': {{ $image->id }}
-        };
+    var params = {
+        'fromUserId': {{ Auth::user()->id }},
+        'toUserId': {{ $user->id }},
+        'image_id': {{ $image->id }}
+    };
 
-        $('#comment-to-send').on('keyup', function() {
-            if (!$(this).val()) {
-                $('#send-comment-btn').prop('disabled', true);
-            } else {
-                $('#send-comment-btn').prop('disabled', false);
-            }
+    $('#comment-to-send').on('keyup', function() {
+        if (!$(this).val()) {
+            $('#send-comment-btn').prop('disabled', true);
+        } else {
+            $('#send-comment-btn').prop('disabled', false);
+        }
+    });
+
+    $('#like-img,#dislike-img').on('click', function() {
+        if ($(this).prop('id').split('-')[0] == 'like') {
+            var route = "{{ route('like.img') }}";
+            axios_post(route, params, like_img);
+        } else {
+            var route = "{{ route('dislike.img') }}";
+            axios_post(route, params, dislike_img);
+        }
+    });
+
+    $("div[name='like-comment'],div[name='dislike-comment']").on('click', function() {
+        var comment_id = $(this).attr('value');
+        params['comment_id'] = comment_id;
+        if ($(this).attr('name') == 'like-comment') {
+            var route = "{{ route('like.comment') }}";
+            axios_post(route, params, like_comment(comment_id));
+        } else {
+            var route = "{{ route('dislike.comment') }}";
+            axios_post(route, params, dislike_comment(comment_id));
+        }
+    });
+
+    $('#saved-img').on('click', function() {
+        var route = "{{ route('saved.store') }}";
+        axios_post(route, params, function() {
+            $(this).removeClass('far fa-bookmark fa-2x').addClass('fas fa-bookmark fa-2x');
         });
-
-        $('#like-img,#dislike-img').on('click', function() {
-            if ($(this).prop('id').split('-')[0] == 'like') {
-                var route = "{{ route('like.img') }}";
-                axios_post(route, params, like_img);
-            } else {
-                var route = "{{ route('dislike.img') }}";
-                axios_post(route, params, dislike_img);
-            }
-        });
-
-        $("div[name='like-comment'],div[name='dislike-comment']").on('click', function() {
-            var comment_id = $(this).attr('value');
-            params['comment_id'] = comment_id;
-            if ($(this).attr('name') == 'like-comment') {
-                var route = "{{ route('like.comment') }}";
-                axios_post(route, params, like_comment(comment_id));
-            } else {
-                var route = "{{ route('dislike.comment') }}";
-                axios_post(route, params, dislike_comment(comment_id));
-            }
-        });
-
-        $('#saved-img').on('click', function() {
-            var route = "{{ route('saved.store') }}";
-            axios_post(route, params, function() {
-                $(this).removeClass('far fa-bookmark fa-2x').addClass('fas fa-bookmark fa-2x');
-            });
-        })
     });
 </script>
 
