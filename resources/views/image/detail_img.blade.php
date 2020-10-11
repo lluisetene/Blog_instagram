@@ -3,9 +3,8 @@
 @section('card-images')
     @if(count($user->images) == 0)
         <div class="card" style="margin-top: 8%;">
-            <div class="card-header">
-                @include('includes.avatar', ['style' => 'float: left; width: 10%;', 'user' => $user, 'other_username' => $user->username])
-            </div>
+
+            @include('layout_card_photo.header')
 
             <div class="card-body">
                 card-body
@@ -13,9 +12,8 @@
         </div>
     @else
         <div class="card" style="margin-top: 8%;">
-            <div class="card-header" style="padding-top: 1%; padding-bottom: 1%;">
-                @include('includes.avatar', ['style' => 'float:left; width: 10%;', 'user' => $user, 'other_username' => $user->username])
-            </div>
+
+            @include('layout_card_photo.header', ['user' => $user])
 
             <div class="card-body" style="margin-top: -3%;">
                 @if (session('status'))
@@ -55,36 +53,6 @@
             $('#send-comment-btn').on('click', function() {
                 params['comment-user'] = $('#comment-to-send').val();
                 axios_post("{{ route('comment.save') }}", params, send_comment);
-            });
-
-            $('#comment-to-send').on('keyup', function() {
-               if (!$(this).val()) {
-                   $('#send-comment-btn').prop('disabled', true);
-               } else {
-                   $('#send-comment-btn').prop('disabled', false);
-               }
-            });
-
-            $('#like-img,#dislike-img').on('click', function() {
-                if ($(this).prop('id').split('-')[0] == 'like') {
-                    var route = "{{ route('like.img') }}";
-                    axios_post(route, params, like_img);
-                } else {
-                    var route = "{{ route('dislike.img') }}";
-                    axios_post(route, params, dislike_img);
-                }
-            });
-
-            $("div[name='like-comment'],div[name='dislike-comment']").on('click', function() {
-                var comment_id = $(this).attr('value');
-                params['comment_id'] = comment_id;
-                if ($(this).attr('name') == 'like-comment') {
-                    var route = "{{ route('like.comment') }}";
-                    axios_post(route, params, like_comment(comment_id));
-                } else {
-                    var route = "{{ route('dislike.comment') }}";
-                    axios_post(route, params, dislike_comment(comment_id));
-                }
             });
 
         });

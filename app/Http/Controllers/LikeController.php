@@ -28,6 +28,9 @@ class LikeController extends Controller
     public function getValues($request)
     {
         if ($request->ajax()) {
+            if ($request->get('user')) {
+                $request = $request->get('user');
+            }
             $fromUserId = (int)$request->get('fromUserId');
             $toUserId = (int)$request->get('toUserId');
             $imageId = (int)$request->get('image_id');

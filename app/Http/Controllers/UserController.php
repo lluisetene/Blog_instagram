@@ -49,7 +49,8 @@ class UserController extends Controller
             'username' => $user->username,
             'email' => $user->email,
             'image_path' => $user->image_path ?? '',
-            'password' => $user->password
+            'password' => $user->password,
+            'private_account' => $user->private_account
         ]);
     }
 
@@ -79,6 +80,10 @@ class UserController extends Controller
             $user->lastname = $request->get('lastname');
             $user->username = $request->get('username');
             $user->email = $request->get('email');
+            if ($request->has('private_account')) {
+                $user->private_account = true;
+            }
+
             if (!is_null($image_path)) {
                 $image_path_name = time().$image_path->getClientOriginalName();
                 Storage::disk('users')->put($image_path_name, File::get($image_path));

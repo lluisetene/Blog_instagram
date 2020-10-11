@@ -43,3 +43,6 @@ Route::post('unfollow', 'FollowerController@unfollow')->name('follow.unfollow');
 
 // Comments
 Route::post('image/comment', 'CommentController@save')->name('comment.save');
+
+// Saved
+Route::post('/saved', 'SavedController@store')->name('saved.store');

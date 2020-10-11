@@ -82,6 +82,24 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="private_account" class="col-md-4 col-form-label text-md-right">{{ __('Private account?') }}</label>
+
+                                <div class="col-md-1">
+                                    @if($private_account)
+                                        <input id="private_account" type="checkbox" class="form-control @error('private_account') is-invalid @enderror" name="private_account" value="{{ $private_account, old('private_account') }}" checked>
+                                    @else
+                                        <input id="private_account" type="checkbox" class="form-control @error('private_account') is-invalid @enderror" name="private_account" value="{{ $private_account, old('private_account') }}">
+                                    @endif
+                                    
+                                    @error('private_account')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

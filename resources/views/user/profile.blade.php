@@ -17,6 +17,13 @@
                 </div>
             @endif
         </div>
+    @elseif($user->private_account and !$user->followers->firstWhere('user_id', Auth::user()->id))
+        <div class="card" style="margin-top: 8%;">
+
+                <div class="card-body" style="text-align:center;">
+                    <p>{{ __('Private account! :(') }}</p>
+                </div>
+        </div>
     @else
         <div class="card" style="margin-top: 8%;">
             <div class="card-header">

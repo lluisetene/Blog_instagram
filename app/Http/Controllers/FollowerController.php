@@ -39,21 +39,26 @@ class FollowerController extends Controller
 
     public function follow(Request $request)
     {
-        list($fromUserId, $toUserId) = getValues($request);
+        list($fromUserId, $toUserId) = $this->getValues($request);
         Follower::create([
             'user_id' => $fromUserId,
             'toUser_id' => $toUserId
         ]);
-        return "Ahora le sigues!";
+        return response()->json(['msg' => "Ahora le sigues!",
+                                 'funct' => 'follow',
+                                 'url' => route('follow.unfollow')]);
     }
 
 
-    public function unfollow($fromUserId, $toUserId)
+    public function unfollow(Request $request)
     {
+        list($fromUserId, $toUserId) = $this->getValues($request);
         $user = Follower::where('user_id', $fromUserId)
             ->where('toUser_id', $toUserId);
         $user->delete();
-        return 'Has dejado de seguirle!';
+        return response()->json(['msg' => 'Has dejado de seguirle!',
+                                 'funct' => 'unfollow',
+                                 'url' => route('follow.follow')]);
     }
 
     public function getValues($request)
@@ -61,11 +66,10 @@ class FollowerController extends Controller
         if ($request->ajax()) {
             $toUserId = (int)$request->get('toUserId');
             $fromUserId = (int)$request->get('fromUserId');
-            return [$toUserId, $fromUserId];
+            return [$fromUserId, $toUserId];
         } else {
             $msg = "Ups, no puedes seguirlo!";
-            response()->json([
-                'msg' => $msg]);
+            return response()->json(['msg' => $msg]);
         }
     }
 }

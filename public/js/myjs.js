@@ -29,6 +29,7 @@ function send_comment() {
     $('#send-comment-btn').val('');
 }
 
+
 function axios_post(route, params, callback) {
     axios.post(route, params)
         .then(function(res){

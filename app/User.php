@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'username', 'email', 'password', 'image_path'
+        'firstname', 'lastname', 'username', 'email', 'password', 'image_path', 'private_account'
     ];
 
     /**
@@ -44,22 +44,28 @@ class User extends Authenticatable
         return $this->hasMany('App\Image');
     }
 
-    // Seguidores
-    public function followers()
-    {
-        return $this->hasMany('App\Follower', 'toUser_id');
-    }
-
     // Seguidos
     public function followeds()
     {
         return $this->hasMany('App\Follower');
     }
 
+    // Seguidores
+    public function followers()
+    {
+        return $this->hasMany('App\Follower', 'toUser_id');
+    }
+
     // Última imagen subida por el usuario
     public function lastImgUpload()
     {
         return $this->hasMany('App\Image')->orderBy('id', 'desc')->first();
+    }
+
+    // Imágenes que tiene guardadas de otros usuarios
+    public function imagesSaved()
+    {
+        return $this->hasMany('App\Saved', 'user_id');
     }
 
 }
